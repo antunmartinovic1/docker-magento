@@ -26,8 +26,8 @@ services:
       - sockdata:/sock
       - ssldata:/etc/nginx/certs
     #extra_hosts: &appextrahosts
-      ## Selenium support, replace "magento.test" with URL of your site
-      #- "magento.test:172.17.0.1"
+      ## Selenium support, replace "vivelacar.loc" with URL of your site
+      #- "vivelacar.loc:172.17.0.1"
 
   phpfpm:
     image: markoshust/magento-php:8.1-fpm-1

@@ -14,7 +14,7 @@ source env/magento.env
 # shellcheck source=../env/rabbitmq.env
 source env/rabbitmq.env
 
-DOMAIN=${1:-magento.test}
+DOMAIN=${1:-vivelacar.loc}
 
 bin/stop
 

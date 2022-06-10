@@ -1,7 +1,7 @@
 #!/bin/bash
 set -o errexit
 
-[ -z "$1" ] && echo "Please specify a domain name (ex. magento.test)" && exit
+[ -z "$1" ] && echo "Please specify a domain name (ex. vivelacar.loc)" && exit
 
 DOMAIN=$1
 
