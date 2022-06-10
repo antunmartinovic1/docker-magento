@@ -9,4 +9,4 @@ curl -s https://raw.githubusercontent.com/antunmartinovic1/docker-magento/master
 
 # &&'s are used below otherwise onelinesetup script fails/errors after bin/download
 bin/download "${VERSION}" "${EDITION}" \
-  && bin/setup-init "${DOMAIN}"
+  && bin/setup "${DOMAIN}"
