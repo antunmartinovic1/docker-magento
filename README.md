@@ -138,13 +138,13 @@ Run this automated one-liner from the directory you want to install your project
 #### No sample data
 
 ```bash
-curl -s https://raw.githubusercontent.com/markshust/docker-magento/master/lib/onelinesetup | bash -s -- magento2.test 2.3.5-p1
+curl -s https://raw.githubusercontent.com/antunmartinovic1/docker-magento/master/lib/onelinesetup | bash -s -- magento2.test 2.3.5-p1
 ```
 
 #### With sample data
 
 ```bash
-curl -s https://raw.githubusercontent.com/markshust/docker-magento/master/lib/onelinesetup | bash -s -- magento2.test with-samples-2.3.5-p1
+curl -s https://raw.githubusercontent.com/antunmartinovic1/docker-magento/master/lib/onelinesetup | bash -s -- magento2.test with-samples-2.3.5-p1
 ```
 
 The `magento2.test` above defines the hostname to use, and the `2.3.5-p1` defines the Magento version to install. Note that since we need a write to `/etc/hosts` for DNS resolution, you will be prompted for your system password during setup.
@@ -161,7 +161,7 @@ Same result as the one-liner above. Just replace `magento2.test` references with
 
 ```bash
 # Download the Docker Compose template:
-curl -s https://raw.githubusercontent.com/markshust/docker-magento/master/lib/template | bash
+curl -s https://raw.githubusercontent.com/antunmartinovic1/docker-magento/master/lib/template | bash
 
 # Download the version of Magento you want to use with:
 bin/download 2.3.5-p1
@@ -191,7 +191,7 @@ open https://magento2.test
 
 ```bash
 # Download the Docker Compose template:
-curl -s https://raw.githubusercontent.com/markshust/docker-magento/master/lib/template | bash
+curl -s https://raw.githubusercontent.com/antunmartinovic1/docker-magento/master/lib/template | bash
 
 # Remove existing src directory:
 rm -rf src
