@@ -78,6 +78,9 @@ bin/clinotty bin/magento setup:install \
   --use-rewrites=1 \
   --no-interaction
 
+echo "Importing database..."
+bin/mysql < ../etc/localhost.sql
+
 echo "Copying files from container to host after install..."
 bin/copyfromcontainer --all
 

@@ -1,32 +1,29 @@
 #!/bin/bash
 set -o errexit
 
-if [[ ! -f "etc/localhost.sql" ]]
+if [[ ! -f "../etc/localhost.sql" ]]
 then
     echo "Database file 'localhost.sql' does not exists. Please upload the file 'localhost.sql' into 'etc' directory and execute command again"
     exit
 fi
 
-echo "Copy localhost.sql from etc"
-cp etc/localhost.sql src/
-
-if [[ ! -f "etc/env.php" ]]
+if [[ ! -f "../etc/env.php" ]]
 then
     echo "Env file 'env.php' does not exists. Please upload the file 'env.php' into 'etc' directory and execute command again"
     exit
 fi
 
 echo "Copy env.php  from etc"
-cp etc/env.php src/app/code/etc/
+cp ../etc/env.php ../src/app/etc/
 
 
-if [[ ! -f "etc/nginx.conf.sample" ]]
+if [[ ! -f "../etc/nginx.conf.sample" ]]
 then
     echo "Nginx config file 'nginx.conf.sample' does not exists. Please upload the file 'nginx.conf.sample' into 'etc' directory and execute command again"
     exit
 fi
 
 echo "Copy nginx.conf.sample from etc"
-cp etc/nginx.conf.sample src/nginx.conf.sample
+cp ../etc/nginx.conf.sample ../src/nginx.conf.sample
 
 source setup
