@@ -25,15 +25,15 @@ services:
       - appdata:/var/www/html
       - sockdata:/sock
       - ssldata:/etc/nginx/certs
-    #extra_hosts: &appextrahosts
+    extra_hosts: &appextrahosts
       ## Selenium support, replace "vivelacar.loc" with URL of your site
-      #- "vivelacar.loc:172.17.0.1"
+      - "vivelacar.loc:172.17.0.1"
 
   phpfpm:
     image: markoshust/magento-php:8.1-fpm-1
     volumes: *appvolumes
     env_file: env/phpfpm.env
-    #extra_hosts: *appextrahosts
+    extra_hosts: *appextrahosts
 
   db:
     image: mariadb:10.4
