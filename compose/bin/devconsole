@@ -1,2 +1,2 @@
 #!/bin/bash
-bin/n98-magerun2 dev:console
+bin/cli bin/n98-magerun2.phar dev:console

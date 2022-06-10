@@ -1,22 +1,9 @@
 #!/bin/bash
-
-VERSION=${1:-2.4.4}
-EDITION=${2:-community}
-
-bin/stop
-
-# Translate version to root in integer format. Ex. 2.4.3-p1 -> 243
-VERSION_ROOT=$(echo "$VERSION" | cut -b 1-5 | sed -e 's/\.//g')
-
-if (( $(echo "$VERSION_ROOT < 244" | bc -l) )); then
-  sed -i -e 's/8.1\-fpm\-1/7.4\-fpm\-15/g' docker-compose.yml
-else
-  sed -i -e 's/7.4\-fpm\-15/8.1\-fpm\-1/g' docker-compose.yml
+[ -z "$1" ] && echo "Please specify the version to download (ex. 2.0.0)" && exit
+if [ ! -f ~/.docker-magento/magento2-$1.tar.gz ]; then
+    mkdir -p ~/.docker-magento
+    (cd ~/.docker-magento && curl -OL http://pubfiles.nexcess.net/magento/ce-packages/magento2-$1.tar.gz)
 fi
 
-docker-compose -f docker-compose.yml up -d
-[ $? != 0 ] && echo "Failed to start Docker services" && exit
-
-bin/setup-composer-auth
-
-bin/clinotty composer create-project --repository=https://repo.magento.com/ magento/project-"${EDITION}"-edition="${VERSION}" .
+echo "Extracting magento2-$1.tar.gz to ./src"
+mkdir -p src && tar xzf ~/.docker-magento/magento2-$1.tar.gz -o -C src

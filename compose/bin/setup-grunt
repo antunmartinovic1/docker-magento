@@ -1,12 +1,11 @@
 #!/bin/bash
 DEFAULT_THEME_ID="select value from core_config_data where path = 'design/theme/theme_id'"
 THEME_PATH="select theme_path from theme where theme_id in ($DEFAULT_THEME_ID);"
-VENDOR_THEME=$(bin/n98-magerun2 db:query "$THEME_PATH" | sed -n 2p | cut -d$'\r' -f1)
-THEME=$(echo "$VENDOR_THEME" | cut -d'/' -f2)
-LOCALE_CODE=$(bin/magento config:show general/locale/code | cut -d$'\r' -f1 | sed 's/ *$//g')
+VENDOR_THEME=`bin/n98-magerun2 db:query "$THEME_PATH" | sed -n 2p | cut -d$'\r' -f1`
+THEME=`echo $VENDOR_THEME | cut -d'/' -f2`
 
 # Generate local-theme.js for custom theme
-read -r -d '' GEN_THEME_JS << EOM
+read -d '' GEN_THEME_JS << EOM
 var fs = require('fs');
 var util = require('util');
 var theme = require('./dev/tools/grunt/configs/themes');
@@ -14,7 +13,7 @@ var theme = require('./dev/tools/grunt/configs/themes');
 theme['$THEME'] = {
     area: 'frontend',
     name: '$VENDOR_THEME',
-    locale: '$LOCALE_CODE',
+    locale: 'en_US',
     files: [
         'css/styles-m',
         'css/styles-l'
