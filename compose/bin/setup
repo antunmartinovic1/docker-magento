@@ -20,7 +20,7 @@ bin/stop
 
 docker-compose -f docker-compose.yml up -d
 [ $? != 0 ] && echo "Failed to start Docker services" && exit
-
+source file-check
 bin/clinotty chmod u+x bin/magento
 rm -rf src && mkdir src
 
