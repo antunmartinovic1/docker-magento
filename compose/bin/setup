@@ -16,6 +16,7 @@ source env/rabbitmq.env
 
 DOMAIN=${1:-vivelacar.loc}
 
+echo "Removing and making 'src' directory"
 rm -rf src && mkdir src
 
 echo "Cloning from github ..."
@@ -59,13 +60,13 @@ echo "Running setup upgrade..."
 bin/magento setup:upgrade
 
 echo "Installing cron, run 'bin/cron start' to enable..."
-bin/clinotty bin/magento cron:install
+bin/clinotty cron:install
 
 echo "Running reindex..."
 bin/magento indexer:reindex
 
 echo "Turning on developer mode..."
-bin/clinotty bin/magento deploy:mode:set developer
+bin/clinotty deploy:mode:set developer
 
 mv .vscode src/
 
