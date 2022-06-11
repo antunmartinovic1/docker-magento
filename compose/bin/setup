@@ -56,17 +56,21 @@ bin/clinotty composer install
 
 bin/clinotty chmod u+x bin/magento
 
-echo "Running setup upgrade..."
-bin/magento setup:upgrade
+echo "Startting Setup Upgrade ..."
+bin/clinotty bin/magento setup:upgrade
+
+
+echo "Re-indexing with Elasticsearch..."
+bin/clinotty bin/magento indexer:reindex
+
+echo "Setting basic URL and generating SSL certificate..."
+bin/setup-domain "${DOMAIN}"
 
 echo "Installing cron, run 'bin/cron start' to enable..."
-bin/clinotty cron:install
-
-echo "Running reindex..."
-bin/magento indexer:reindex
+bin/clinotty bin/magento cron:install
 
 echo "Turning on developer mode..."
-bin/clinotty deploy:mode:set developer
+bin/clinotty bin/magento deploy:mode:set developer
 
 mv .vscode src/
 
