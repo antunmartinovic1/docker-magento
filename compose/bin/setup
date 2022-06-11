@@ -59,27 +59,22 @@ bin/copyfromcontainer vendor
 
 bin/clinotty chmod u+x bin/magento
 
+bin/restart
+
 echo "Startting Setup Upgrade ..."
-bin/clinotty bin/magento setup:upgrade
-
-bin/copyfromcontainer pub
-bin/copyfromcontainer setup
-bin/copyfromcontainer lib
-bin/copyfromcontainer bin
-bin/copyfromcontainer index.php
-
+bin/magento setup:upgrade
 
 echo "Re-indexing with Elasticsearch..."
-bin/clinotty bin/magento indexer:reindex
+bin/magento indexer:reindex
 
 echo "Setting basic URL and generating SSL certificate..."
 bin/setup-domain "${DOMAIN}"
 
 echo "Installing cron, run 'bin/cron start' to enable..."
-bin/clinotty bin/magento cron:install
+bin/magento cron:install
 
 echo "Turning on developer mode..."
-bin/clinotty bin/magento deploy:mode:set developer
+bin/magento deploy:mode:set developer
 
 mv .vscode src/
 
