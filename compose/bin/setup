@@ -54,19 +54,13 @@ bin/mysql < etc/localhost.sql
 echo "Running composer install..."
 bin/clinotty composer install
 
-echo "Copying composer files ...."
-
-bin/clinotty chmod u+x bin/magento
-
-echo "Setting basic URL and generating SSL certificate..."
-bin/setup-domain "${DOMAIN}"
-
-mv .vscode src/
+echo "Running setup upgrade..."
+bin/clinotty bin/magento setup:upgrade
 
 echo "Copy all from container to local ..."
 bin/copyfromcontainer --all
 
-echo "Copy all from to container from local ..."
+echo "Copy all to container from local ..."
 bin/copytocontainer --all
 
 bin/restart
