@@ -16,16 +16,14 @@ source env/rabbitmq.env
 
 DOMAIN=${1:-vivelacar.loc}
 
-bin/stop
+rm -rf src && mkdir src
+
+bin/download
+
+bin/file-check
 
 docker-compose -f docker-compose.yml up -d
 [ $? != 0 ] && echo "Failed to start Docker services" && exit
-
-rm -rf src && mkdir src
-
-git clone git@github.com:ViveLaCar/Magento-Cloud.git src
-
-bin/file-check
 
 echo "Waiting for connection to Elasticsearch..."
 bin/clinotty timeout $ES_HEALTHCHECK_TIMEOUT bash -c "
@@ -44,11 +42,14 @@ bin/clinotty timeout $RABBITMQ_HEALTHCHECK_TIMEOUT bash -c "
     done"
 [ $? != 0 ] && echo "Failed to connect to RabbitMQ" && exit
 
+echo 'Copy files to container ...'
+bin/copytocontainer
+
 echo "Importing database..."
 bin/mysql < etc/localhost.sql
 
 echo "Running composer install..."
-bin/clinotty bin/composer install
+bin/clinotty composer install
 
 bin/clinotty chmod u+x bin/magento
 
