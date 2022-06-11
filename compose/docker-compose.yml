@@ -27,7 +27,7 @@ services:
       - ssldata:/etc/nginx/certs
     extra_hosts: &appextrahosts
       ## Selenium support, replace "vivelacar.loc" with URL of your site
-      - "vivelacar.loc:172.17.0.1"
+      - "host.docker.internal:172.17.0.1"
 
   phpfpm:
     image: markoshust/magento-php:7.3-fpm-6
