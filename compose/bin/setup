@@ -48,7 +48,7 @@ echo "Importing database..."
 bin/mysql < etc/localhost.sql
 
 echo "Running composer install..."
-bin/composer install
+bin/clinotty bin/composer install
 
 bin/clinotty chmod u+x bin/magento
 
