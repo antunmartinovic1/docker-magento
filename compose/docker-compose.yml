@@ -25,6 +25,8 @@ services:
       - appdata:/var/www/html
       - sockdata:/sock
       - ssldata:/etc/nginx/certs
+    environment:
+      PHP_IDE_CONFIG: "serverName=vivelacar.loc"
     extra_hosts: &appextrahosts
       ## Selenium support, replace "vivelacar.loc" with URL of your site
       - "host.docker.internal:172.17.0.1"
@@ -33,6 +35,8 @@ services:
     image: markoshust/magento-php:7.3-fpm-19
     volumes: *appvolumes
     env_file: env/phpfpm.env
+    environment:
+      PHP_IDE_CONFIG: "serverName=vivelacar.loc"
     extra_hosts: *appextrahosts
 
   db:
