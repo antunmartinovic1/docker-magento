@@ -61,6 +61,10 @@ bin/clinotty chmod u+x bin/magento
 
 echo "Startting Setup Upgrade ..."
 bin/clinotty bin/magento setup:upgrade
+bin/copyfromcontainer bin
+bin/copyfromcontainer pub
+bin/copyfromcontainer lib
+bin/copyfromcontainer index.php
 
 echo "Re-indexing with Elasticsearch..."
 bin/clinotty bin/magento indexer:reindex
@@ -75,8 +79,6 @@ echo "Turning on developer mode..."
 bin/clinotty bin/magento deploy:mode:set developer
 
 mv .vscode src/
-
-bin/copyfromcontainer --all
 
 bin/restart
 
