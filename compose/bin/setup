@@ -60,7 +60,7 @@ bin/copyfromcontainer vendor
 bin/clinotty chmod u+x bin/magento
 
 echo "Startting Setup Upgrade ..."
-bin/magento setup:upgrade
+bin/clinotty bin/magento setup:upgrade
 
 echo "Re-indexing with Elasticsearch..."
 bin/clinotty bin/magento indexer:reindex
