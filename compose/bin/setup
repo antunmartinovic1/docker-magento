@@ -18,8 +18,10 @@ DOMAIN=${1:-vivelacar.loc}
 
 rm -rf src && mkdir src
 
+echo "Cloning from github ..."
 bin/download
 
+echo "Copying data from env directory ..."
 bin/file-check
 
 docker-compose -f docker-compose.yml up -d
@@ -43,7 +45,7 @@ bin/clinotty timeout $RABBITMQ_HEALTHCHECK_TIMEOUT bash -c "
 [ $? != 0 ] && echo "Failed to connect to RabbitMQ" && exit
 
 echo 'Copy files to container ...'
-bin/copytocontainer
+bin/copytocontainer --all
 
 echo "Importing database..."
 bin/mysql < etc/localhost.sql
