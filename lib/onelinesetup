@@ -4,9 +4,9 @@ set -o errexit
 DOMAIN=${1:-vivelacar.loc}
 VERSION=${2:-2.4.4}
 EDITION=${3:-community}
+OS = ${:1-win}
 
-curl -s https://raw.githubusercontent.com/antunmartinovic1/docker-magento/master/lib/template | bash
+curl -s https://raw.githubusercontent.com/antunmartinovic1/docker-magento/master/lib/template | bash -s
 
 # &&'s are used below otherwise onelinesetup script fails/errors after bin/download
-bin/download "${VERSION}" "${EDITION}" \
-  && bin/setup "${DOMAIN}"
+bin/download && bin/setup

@@ -119,110 +119,28 @@ This configuration has been tested on Mac & Linux. Windows is supported through 
 
 ## Setup
 
-### Automated Setup (New Project)
+### Automated Setup (LINUX ONLY)
 
 ```bash
 # Create your project directory then go into it:
-mkdir -p ~/Sites/magento
+mkdir -p ~/vivelacar/magento
 cd $_
 
-# Run this automated one-liner from the directory you want to install your project.
-curl -s https://raw.githubusercontent.com/antunmartinovic1/docker-magento/master/lib/onelinesetup | bash -s -- vivelacar.loc 2.4.4
+# Create etc directory into it:
+mkdir etc
+
+Download 'auth.json','env.php','nginx.conf.sample','localhost.sql' from wiki.
+Copy 'auth.json','env.php','nginx.conf.sample','localhost.sql' into 'etc' directory.
+
+
+# Note that your root directory MUST contain 'etc' directory with following files 'auth.json','env.php','nginx.conf.sample','localhost.sql' - database dump
+# Go to your project root directory and run this automated one-liner to install your project.
+curl -s https://raw.githubusercontent.com/antunmartinovic1/docker-magento/master/lib/onelinesetup | bash
 ```
 
 The `vivelacar.loc` above defines the hostname to use, and the `2.4.4` defines the Magento version to install. Note that since we need a write to `/etc/hosts` for DNS resolution, you will be prompted for your system password during setup.
 
 After the one-liner above completes running, you should be able to access your site at `https://vivelacar.loc`.
-
-#### Install sample data
-
-After the above installation is complete, run the following lines to install sample data:
-
-```bash
-bin/magento sampledata:deploy
-bin/magento setup:upgrade
-```
-
-### Manual Setup
-
-Same result as the one-liner above. Just replace `vivelacar.loc` references with the hostname that you wish to use.
-
-#### New Projects
-
-```bash
-# Create your project directory then go into it:
-mkdir -p ~/Sites/magento
-cd $_
-
-# Download the Docker Compose template:
-curl -s https://raw.githubusercontent.com/antunmartinovic1/docker-magento/master/lib/template | bash
-
-# Download the version of Magento you want to use with:
-bin/download 2.4.4
-
-# or for Magento core development:
-# docker-compose -f docker-compose.yml up -d
-# bin/setup-composer-auth
-# bin/cli git clone git@github.com:magento/magento2.git .
-# bin/cli git checkout 2.4-develop
-# bin/composer install
-
-# Run the setup installer for Magento:
-bin/setup vivelacar.loc
-
-open https://vivelacar.loc
-```
-
-#### Existing Projects
-
-```bash
-# Take a backup of your existing database:
-bin/mysqldump > ~/Sites/existing/magento.sql
-
-# Create your project directory then go into it:
-mkdir -p ~/Sites/magento
-cd $_
-
-# Download the Docker Compose template:
-curl -s https://raw.githubusercontent.com/antunmartinovic1/docker-magento/master/lib/template | bash
-
-# Replace with existing source code of your existing Magento instance:
-cp -R ~/Sites/existing src
-# or: git clone git@github.com:myrepo.git src
-
-# Start some containers, copy files to them and then restart the containers:
-docker-compose -f docker-compose.yml up -d
-bin/copytocontainer --all ## Initial copy will take a few minutes...
-
-# Import existing database:
-bin/mysql < ../existing/magento.sql
-
-# Update database connection details to use the above Docker MySQL credentials:
-# Also note: creds for the MySQL server are defined at startup from env/db.env
-# vi src/app/etc/env.php
-
-# Import app-specific environment settings:
-bin/magento app:config:import
-
-# Create a DNS host entry and setup Magento base url
-bin/setup-domain yoursite.test
-
-bin/restart
-
-open https://vivelacar.loc
-```
-
-## Updates
-
-To update your project to the latest version of `docker-magento`, run:
-
-```
-bin/update
-```
-
-We recommend keeping your docker config files in version control, so you can monitor the changes to files after updates. After reviewing the code updates and ensuring they updated as intended, run `bin/restart` to restart your containers to have the new configuration take effect.
-
-It is recommended to keep your root docker config files in one repository, and your Magento code setup in another. This ensures the Magento base path lives at the top of one specific repository, which makes automated build pipelines and deployments easy to manage, and maintains compatibility with projects such as Magento Cloud.
 
 ## Custom CLI Commands
 
