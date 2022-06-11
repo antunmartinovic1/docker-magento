@@ -55,15 +55,19 @@ echo "Running composer install..."
 bin/clinotty composer install
 
 echo "Copying composer files ...."
-bin/clinotty bin/copytocontainer
+bin/copyfromcontainer vendor
 
 bin/clinotty chmod u+x bin/magento
 
 echo "Startting Setup Upgrade ..."
 bin/clinotty bin/magento setup:upgrade
 
-echo "Copying setup upgrade files ...."
-bin/clinotty bin/copytocontainer
+bin/copyfromcontainer pub
+bin/copyfromcontainer setup
+bin/copyfromcontainer lib
+bin/copyfromcontainer bin
+bin/copyfromcontainer index.php
+
 
 echo "Re-indexing with Elasticsearch..."
 bin/clinotty bin/magento indexer:reindex
@@ -79,6 +83,7 @@ bin/clinotty bin/magento deploy:mode:set developer
 
 mv .vscode src/
 
+bin/restart
 
 echo "Docker development environment setup complete."
 echo "You may now access your Magento instance at https://${DOMAIN}/"
