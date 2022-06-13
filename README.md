@@ -138,8 +138,6 @@ Copy 'auth.json','env.php','nginx.conf.sample','localhost.sql' into 'etc' direct
 curl -s https://raw.githubusercontent.com/antunmartinovic1/docker-magento/master/lib/onelinesetup | bash
 ```
 
-The `vivelacar.loc` above defines the hostname to use, and the `2.4.4` defines the Magento version to install. Note that since we need a write to `/etc/hosts` for DNS resolution, you will be prompted for your system password during setup.
-
 After the one-liner above completes running, you should be able to access your site at `https://vivelacar.loc`.
 
 ## Custom CLI Commands
@@ -228,15 +226,17 @@ bin/mysqldump > magento.sql
 > sed 's/\sDEFINER=`[^`]*`@`[^`]*`//g' -i src/backup.sql
 > ```
 
-### Composer Authentication
-
-First setup Magento Marketplace authentication (details in the [DevDocs](http://devdocs.magento.com/guides/v2.0/install-gde/prereq/connect-auth.html)).
-
-Copy `src/auth.json.sample` to `src/auth.json`. Then, update the username and password values with your Magento public and private keys, respectively. Finally, copy the file to the container by running `bin/copytocontainer auth.json`.
-
 ### Email / Mailcatcher
 
 View emails sent locally through Mailcatcher by visiting [http://{yourdomain}:1080](http://{yourdomain}:1080). During development, it's easiest to test emails using a third-party module such as [https://github.com/mageplaza/magento-2-smtp](Mageplaza's SMTP module). Set the mailserver host to `mailcatcher` and port to `1080`.
+
+### Phpmyadin
+
+You can access phpmyadmin by visiting [http://vivelacar.loc:8081](http://vivelacar.loc:8081).
+Credentials are:<br>
+    Server:     db  <br>
+    Username:   magento <br>
+    Password:   magento <br>
 
 ### Redis
 
@@ -318,45 +318,6 @@ Note that you must use your IDE's SSH/SFTP functionality, otherwise changes will
 ```
 bin/copyfromcontainer --all
 ```
-
-### Linux
-
-Running Docker on Linux should be pretty straight-forward. Note that you need to run some [post install commands](https://docs.docker.com/install/linux/linux-postinstall/) as well as [installing Docker Compose](https://docs.docker.com/compose/install/) before continuing. These steps are taken care of automatically with Docker Desktop, but not on Linux.
-
-Copy `docker-compose.dev-linux.yml` to `docker-compose.dev.yml` before installing Magento to take advantage of this setup.
-
-#### The host.docker.internal hostname
-
-The `host.docker.internal` hostname is used on Docker for Mac/Windows to reference the Docker daemon. On Linux, this hostname does not exist.
-
-This hostname is [hard-coded in the php.ini file](https://github.com/markshust/docker-magento/blob/master/images/php/7.4/conf/php.ini#L8). To make this hostname resolve, add `"host.docker.internal:172.17.0.1"` to the `app.extra_hosts` parameter of `docker-compose.yml`, replacing `172.17.0.1` with the result of:
-
-```
-docker run --rm alpine ip route | awk 'NR==1 {print $3}'
-```
-
-You must also create a new entry in your `/etc/hosts` file using the same IP:
-
-```
-172.17.0.1 host.docker.internal
-```
-
-#### Extra settings
-
-To enable Xdebug on Linux, you may also need to open port 9003 on the firewall by running:
-
-```
-sudo iptables -A INPUT -p tcp --dport 9003 -j ACCEPT
-```
-
-You may also have to increase a virtual memory map count on the host system which is required by [Elasticsearch](https://www.elastic.co/guide/en/elasticsearch/reference/current/vm-max-map-count.html).
-
-Add the following line to the `/etc/sysctl.conf` file on your host:
-
-```
-vm.max_map_count=262144
-```
-
 ### Blackfire.io
 
 These docker images have built-in support for Blackfire.io. To use it, first register your server ID and token with the Blackfire agent:
