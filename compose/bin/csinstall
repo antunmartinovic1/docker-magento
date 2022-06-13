@@ -1,0 +1,4 @@
+#!/bin/bash
+docker-compose exec phpfpm test ! -f /var/www/cs/vendor/bin/phpcs && (
+    bin/cli composer create-project magento/magento-coding-standard /var/www/cs
+    )
