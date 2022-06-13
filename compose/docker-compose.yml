@@ -39,7 +39,16 @@ services:
       PHP_IDE_CONFIG: "serverName=vivelacar.loc"
     extra_hosts: *appextrahosts
 
-    phpmyadmin:
+  db:
+    image: mariadb:10.4
+    command: --max_allowed_packet=64M
+    ports:
+      - "3306:3306"
+    env_file: env/db.env
+    volumes:
+      - dbdata:/var/lib/mysql
+
+  phpmyadmin:
     image: phpmyadmin/phpmyadmin
     container_name: pma
     links:
@@ -51,15 +60,6 @@ services:
     restart: always
     ports:
       - 8081:80
-  
-  db:
-    image: mariadb:10.4
-    command: --max_allowed_packet=64M
-    ports:
-      - "3306:3306"
-    env_file: env/db.env
-    volumes:
-      - dbdata:/var/lib/mysql
 
   redis:
     image: redis:6.2-alpine
