@@ -66,7 +66,7 @@ services:
       - "6379:6379"
 
   elasticsearch:
-    image: markoshust/magento-elasticsearch:6.5.4-0
+    image: markoshust/magento-elasticsearch:7.7
     ports:
       - "9200:9200"
       - "9300:9300"
